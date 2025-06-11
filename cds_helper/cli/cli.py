@@ -65,7 +65,11 @@ def main() -> int:
 
     try:
         parsed_args = parser.parse_args(args_list)
-        handler_map[parsed_args.command](parsed_args)
+
+        handler = handler_map[parsed_args.command]
+        handler(parsed_args)
+    except FileNotFoundError as ex:
+        print(ex.args[0])
     except SystemExit:
         log.debug("Unable to parse arguments", extra={"args_list": args_list})
         return 1

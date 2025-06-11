@@ -4,20 +4,19 @@
 import argparse
 import logging
 import sys
+import typing as t
 
-# def get_file_usage() -> str:
-#     return textwrap.dedent(
-#         """\
-#             >>> python -m ./sample.py retrieve -f ./cds-request.json
-#             >>>
-#         """
-#     )
+import cds_helper.cli.get as get_cli
+import cds_helper.cli.request as request_cli
+import cds_helper.cli.template as template_cli
+
+CLI_NAME = "cdshelper"
 
 
 def create_parser() -> argparse.ArgumentParser:
     """Create a parser for the arguments to this utility."""
     parser = argparse.ArgumentParser(
-        "cds-helper",
+        CLI_NAME,
         description=(
             "cds-helper is a utility for retrieving a contiguous set of monthly "
             "data from the `Climate Data Store` API"
@@ -25,37 +24,14 @@ def create_parser() -> argparse.ArgumentParser:
         # prefix_chars=["-", "--"]
     )
 
-    subparsers = parser.add_subparsers()
+    subparsers = parser.add_subparsers(help="commands", dest="command")
 
-    # build cds-helper request <options>
-    request_parser = subparsers.add_parser(
-        "request",
-        help=(
-            "Retrieve data by specifying a path to a "
-            "JSON file containing the request parameters."
-        ),
-    )
-    request_parser.add_argument(
-        "file", help="Path to a file containing request details."
-    )
-
-    # build cds-helper get <options>
-    get_parser = subparsers.add_parser(
-        "get",
-        help=("Retrieve data by specifying parameters for a single dataset "),
-        allow_abbrev=True,
-    )
-    get_parser.add_argument(
-        "--start",
-        help="The start of the date range for the desired data.",
-        # format="yyyy-mm-dd",
-    )
-    get_parser.add_argument(
-        "-e",
-        "--end",
-        help="The date to stop retrieving data for.",
-        # format="yyyy-mm-dd",
-    )
+    for tool in [request_cli, template_cli, get_cli]:
+        subparser = subparsers.add_parser(
+            tool.command(),
+            help=tool.help_text(),
+        )
+        tool.configure_parser(subparser)
 
     return parser
 
@@ -63,6 +39,13 @@ def create_parser() -> argparse.ArgumentParser:
 def get_args() -> list[str]:
     """Retrieve CLI arguments."""
     return sys.argv[1:]
+
+
+def create_handler_map() -> dict[str, t.Callable[[argparse.Namespace], None]]:
+    """Map the command handler to each base command name."""
+    return {
+        tool.command(): tool.handle for tool in [request_cli, template_cli, get_cli]
+    }
 
 
 def main() -> int:
@@ -78,9 +61,11 @@ def main() -> int:
         parser.print_help()
         return 0
 
+    handler_map = create_handler_map()
+
     try:
-        if args_list:
-            parser.parse_args(args_list)
+        parsed_args = parser.parse_args(args_list)
+        handler_map[parsed_args.command](parsed_args)
     except SystemExit:
         log.debug("Unable to parse arguments", extra={"args_list": args_list})
         return 1

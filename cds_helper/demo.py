@@ -31,8 +31,9 @@ async def retrieval_demo(log: logging.Logger) -> None:
     )
     log.debug(f"Created request {request}")
 
-    # Create a mapping from the paths in the archive to the desired local paths.
-    # Add string template {0} to rename based on the request parameters.
+    # Create a mapping from the paths in the archive to the desired
+    # local paths. Add a string template `{0}` to allow cds-helper to
+    # rename output files based on the request parameters.
     file_map = {
         "data_stream-oper_stepType-instant.nc": "{0}_inst.nc",
         "data_stream-oper_stepType-accum.nc": "{0}_inst.nc",

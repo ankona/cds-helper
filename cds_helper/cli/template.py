@@ -27,9 +27,10 @@ def configure_parser(parser: argparse.ArgumentParser) -> None:
 def handle(args: argparse.Namespace) -> None:
     """Process a CLI request."""
     template = {
-        "dataset": "dataset-name",
-        "start_date": "2027-01-01",
-        "end_date": "2027-12-31",
+        "dataset": "reanalysis-era5-single-levels",
+        "start_date": "2017-01-01",
+        "end_date": "2017-01-31",
+        "data_type": "reanalysis",
         "variables": [
             "10m_u_component_of_wind",
             "10m_v_component_of_wind",
@@ -40,6 +41,10 @@ def handle(args: argparse.Namespace) -> None:
             "surface_net_solar_radiation",
             "surface_thermal_radiation_downwards",
         ],
+        "file_map": {
+            "data_stream-oper_stepType-instant.nc": "{0}_inst.nc",
+            "data_stream-oper_stepType-accum.nc": "{0}_inst.nc",
+        },
     }
 
     output_path = pathlib.Path(args.path)

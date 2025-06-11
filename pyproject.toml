@@ -1,0 +1,83 @@
+[project]
+name = "cds-helper"
+description = "Utilities for retrieving climate datasets"
+readme = "README.md"
+urls = { repository = "https://github.com/ankona/cds-helper", homepage = "https://www.quizzical.ai/cdshelper" }
+authors = [
+    { name = "Chris McBride", email = "chris@quizzical.ai" },
+]
+license = { text = "Apache-2.0" }
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Oceanography"
+]
+requires-python = ">=3.10"
+dynamic = ["version"]
+dependencies = [
+    "cdsapi>=0.7.6"
+]
+keywords = ["MCDR", "CDR", "ocean", "climate", "dataset"]
+
+[project.optional-dependencies]
+test = [
+     "pytest>=7.0",
+     ]
+dev =[]
+
+[build-system]
+requires = [
+    "setuptools >= 77.0.3",
+    "wheel",
+    "setuptools_scm[toml]>=7.0",
+    "check-manifest"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+fallback_version = "9999"
+
+[project.scripts]
+cdshelper = "cds_helper.cli:main"
+
+# Configuration for mypy type checker
+[tool.mypy]
+ignore_missing_imports = true 
+exclude = "properties|asv_bench|docs"
+
+# Configuration for ruff linter and formatter
+[tool.ruff]
+fix = true
+line-length = 88
+exclude = [
+    ".tox",
+    ".git",
+    "__pycache__",
+]
+
+[tool.ruff.lint]
+extend-select = ["I"]
+ignore = [
+    "COM812",  # missing-trailing-comma (enforced in formatter)
+    "D100",    # undocumented-public-module
+    "INP001",  # implicit-namespace-package
+    "S101",    # assert-in-tests
+    "UP007",   # non-pep604-annotation-union
+    "TRY003",  # raise-vanilla-args
+    "EM101",   # raw-string-in-exception
+    "G004",    # logging-f-string
+    "EM102",   # f-string-in-exception
+    "UP024",   # os-error-alias
+    "D413",    # missing-blank-line-after-last-section
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["cds_helper"]
+exclude = ["cds_helper.tests"]

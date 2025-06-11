@@ -46,6 +46,12 @@ def _format_date(date_str: str) -> datetime:
 def configure_parser(parser: argparse.ArgumentParser) -> None:
     """Configure the parser for this sub-command."""
     parser.add_argument("path", help="Path to a file containing request details.")
+    parser.add_argument(
+        "-o",
+        "--output",
+        help="Path to write the retrieved datasets to.",
+        default="./output",
+    )
     parser.add_argument("-dry-run", action="store_true")
 
 

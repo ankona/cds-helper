@@ -4,7 +4,7 @@ import logging
 import pathlib
 import sys
 
-from cds_helper.core import (
+from cds_helper.core.core import (
     CdsDataRequest,
     download_monthly_data,
 )

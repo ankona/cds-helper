@@ -1,4 +1,13 @@
 import argparse
+import json
+import pathlib
+from datetime import datetime
+
+from cds_helper.core.core import (
+    CdsDataRequest,
+    download_monthly_data,
+)
+
 
 
 def help_text() -> str:

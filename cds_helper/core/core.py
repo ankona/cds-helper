@@ -22,6 +22,7 @@ class CdsDataRequest:
     variables: list[str]
     data_format: str = "netcdf"
     download_format: str = "zip"
+    dry_run: bool = False
 
 
 @dataclasses.dataclass
@@ -103,7 +104,9 @@ class CdsDatasetDownloader:
         archive = pathlib.Path(f"./{request.base_name}.zip")
         extract_to = pathlib.Path(mkdtemp())
 
-        self.client.retrieve(self.dataset, request.to_body(), archive)
+        if not request.request.dry_run:
+            self.client.retrieve(self.dataset, request.to_body(), archive)
+
         extracted_files: list[pathlib.Path] = []
 
         local_paths = self._map_to_paths(

@@ -46,7 +46,7 @@ def _format_date(date_str: str) -> datetime:
 def configure_parser(parser: argparse.ArgumentParser) -> None:
     """Configure the parser for this sub-command."""
     parser.add_argument("path", help="Path to a file containing request details.")
-    parser.add_argument("output", help="Path to write the retrieved datasets to.")
+    parser.add_argument("-dry-run", action="store_true")
 
 
 def handle(args: argparse.Namespace) -> None:
@@ -66,5 +66,5 @@ def handle(args: argparse.Namespace) -> None:
     request_dict["end_date"] = _format_date(request_dict["end_date"])
 
     file_map = request_dict.pop("file_map")
-    request = CdsDataRequest(**request_dict)
+    request = CdsDataRequest(**request_dict, dry_run=args.dry_run)
     download_monthly_data(request, file_map, output_to)

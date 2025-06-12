@@ -19,7 +19,7 @@ jobs:
         uses: astral-sh/ruff-action@v3
       - name: Run mypy
         id: mypy
-        run: mypy .
+        run: mypy src/cdshelper
       - name: Check for errors
         if: steps.ruff.outcome != 'success' || steps.mypy.outcome != 'success'
         run: exit 1

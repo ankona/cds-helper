@@ -27,10 +27,11 @@ dev = [
 
 [build-system]
 requires = [
-    "setuptools >= 77.0.3",
+    "setuptools>=77.0.3",
     "wheel",
-    "setuptools_scm[toml]>=7.0",
-    "check-manifest"
+    "setuptools-scm>=8",
+    "check-manifest",
+    "build",
 ]
 build-backend = "setuptools.build_meta"
 
@@ -44,6 +45,8 @@ exclude = ["tests*", "cdshelper.demo"]
 
 [tool.setuptools_scm]
 fallback_version = "9999"
+version_scheme = "no-guess-dev"  # "python-simplified-semver"
+local_scheme = "no-local-version"
 
 [project.scripts]
 cdshelper = "cdshelper.cli:main"

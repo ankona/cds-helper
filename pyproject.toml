@@ -45,6 +45,8 @@ exclude = ["tests*", "cdshelper.demo"]
 
 [tool.setuptools_scm]
 fallback_version = "9999"
+version_scheme = "python-simplified-semver"
+local_scheme = "no-local-version"
 
 [project.scripts]
 cdshelper = "cdshelper.cli:main"

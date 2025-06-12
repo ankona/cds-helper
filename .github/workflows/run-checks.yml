@@ -17,9 +17,11 @@ jobs:
       - name: Install ruff
         uses: actions/checkout@v4
       - name: Run ruff
+        id: ruff
         uses: astral-sh/ruff-action@v3
       - name: Run type checker
+        id: mypy
         run: mypy .
       - name: Check for errors
-        if: steps.Run ruff.outcome != 'success' || steps.Run type checker.outcome != 'success'
+        if: steps.ruff.outcome != 'success' || steps.mypy.outcome != 'success'
         run: exit 1

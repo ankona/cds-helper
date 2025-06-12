@@ -21,5 +21,5 @@ jobs:
       - name: Run type checker
         run: mypy .
       - name: Check for errors
-        if: steps.Run linter.outcome != 'success' || steps.Run type checker.outcome != 'success'
+        if: steps.Run ruff.outcome != 'success' || steps.Run type checker.outcome != 'success'
         run: exit 1

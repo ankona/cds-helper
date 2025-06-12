@@ -1,12 +1,20 @@
-.PHONY: checklint checkmypy check build installdev install publishdev publish clean
+.PHONY: checklint checkmypy checkformat check test build installdev install publishdev publish clean
 
 checklint:
-	ruff check src/cdshelper
+	ruff check src/cdshelper src/tests
 
 checkmypy:
-	mypy src/cdshelper
+	mypy src/cdshelper src/tests
 
-check: checklint checkmypy
+checkformat:
+	ruff format src/cdshelper src/tests
+
+check: checklint checkmypy checkformat
+
+ready: check test
+
+test:
+	pytest src/tests
 
 build:
 	python -m build . --sdist --wheel

@@ -53,8 +53,11 @@ cdshelper = "cdshelper.cli:main"
 
 # Configuration for mypy type checker
 [tool.mypy]
+exclude = "properties|docs"
+strict = true
+check_untyped_defs = true
 ignore_missing_imports = true
-exclude = "properties|asv_bench|docs"
+disallow_untyped_decorators = false
 
 # Configuration for ruff linter and formatter
 [tool.ruff]
@@ -79,5 +82,5 @@ ignore = [
     "G004",    # logging-f-string
     "EM102",   # f-string-in-exception
     "UP024",   # os-error-alias
-    "D413",    # missing-blank-line-after-last-section
+#    "D413",    # missing-blank-line-after-last-section
 ]

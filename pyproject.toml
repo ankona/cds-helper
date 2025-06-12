@@ -1,35 +1,29 @@
 [project]
 name = "cds-helper"
-description = "Utilities for retrieving climate datasets"
+description = "Chris' Dataset Helper - Utilities for retrieving climate datasets"
 readme = "README.md"
 urls = { repository = "https://github.com/ankona/cds-helper", homepage = "https://www.quizzical.ai/cdshelper" }
 authors = [
     { name = "Chris McBride", email = "chris@quizzical.ai" },
 ]
-license = { text = "Apache-2.0" }
-classifiers = [
-    "Development Status :: 3 - Alpha",
-    "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: Apache Software License",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
-    "Topic :: Scientific/Engineering :: Oceanography"
-]
+license = "Apache-2.0"
+
 requires-python = ">=3.10"
 dynamic = ["version"]
 dependencies = [
-    "cdsapi>=0.7.6"
+    "cdsapi>=0.7.6",
+    "pydantic>=2.11.5,<2.20",
 ]
 keywords = ["MCDR", "CDR", "ocean", "climate", "dataset"]
 
 [project.optional-dependencies]
 test = [
      "pytest>=7.0",
-     ]
-dev =[]
+]
+dev = [
+    "ruff>=0.11.13,<0.20",
+    "mypy>=1.16.0,<1.20",
+]
 
 [build-system]
 requires = [
@@ -40,15 +34,23 @@ requires = [
 ]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["cdshelper*"]
+exclude = ["tests*", "cdshelper.demo"]
+
 [tool.setuptools_scm]
 fallback_version = "9999"
 
 [project.scripts]
-cdshelper = "cds_helper.cli:main"
+cdshelper = "cdshelper.cli:main"
 
 # Configuration for mypy type checker
 [tool.mypy]
-ignore_missing_imports = true 
+ignore_missing_imports = true
 exclude = "properties|asv_bench|docs"
 
 # Configuration for ruff linter and formatter
@@ -76,8 +78,3 @@ ignore = [
     "UP024",   # os-error-alias
     "D413",    # missing-blank-line-after-last-section
 ]
-
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["cds_helper"]
-exclude = ["cds_helper.tests"]

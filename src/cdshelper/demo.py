@@ -1,10 +1,10 @@
 import asyncio
-import datetime
 import logging
 import pathlib
 import sys
+from datetime import datetime
 
-from cds_helper.core.core import (
+from cdshelper.core.core import (
     CdsDataRequest,
     download_monthly_data,
 )
@@ -54,7 +54,13 @@ async def main(_args_list: list[str]) -> int:
     logging.basicConfig(level=logging.INFO)
     log = logging.getLogger()
 
-    retrieval_demo(log)
+    try:
+        await retrieval_demo(log)
+        return 0
+    except Exception:
+        log.exception("Retrieval demo failed.")
+
+    return 1
 
 
 if __name__ == "__main__":

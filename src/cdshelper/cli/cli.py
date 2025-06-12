@@ -6,9 +6,9 @@ import logging
 import sys
 import typing as t
 
-import cds_helper.cli.get as get_cli
-import cds_helper.cli.request as request_cli
-import cds_helper.cli.template as template_cli
+import cdshelper.cli.get as get_cli
+import cdshelper.cli.request as request_cli
+import cdshelper.cli.template as template_cli
 
 CLI_NAME = "cdshelper"
 

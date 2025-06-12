@@ -84,7 +84,7 @@ async def retrieval_demo(log: logging.Logger) -> None:
         ],
     )
 
-    # Create a mapping from the paths in the archive to the desired 
+    # Create a mapping from the paths in the archive to the desired
     # local paths. Add a string template `{0}` to allow cds-helper to
     # rename output files based on the request parameters.
     file_map = {
